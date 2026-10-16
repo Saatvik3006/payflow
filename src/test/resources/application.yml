@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: payflow-backend-test
+  datasource:
+    url: jdbc:h2:mem:payflow_test;DB_CLOSE_DELAY=-1;DEFAULT_LOCK_TIMEOUT=15000
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 20000
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+  kafka:
+    listener:
+      auto-startup: false
+    admin:
+      auto-create: false
+      fail-fast: false
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: test-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+app:
+  kafka:
+    enabled: false
+    topics:
+      payment-events: payment.events.test
+      payment-dlt: payment.events.DLT.test
+      notification-events: notification.events.test
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration-ms: 3600000
+  mock-gateway:
+    failure-rate-percent: 0

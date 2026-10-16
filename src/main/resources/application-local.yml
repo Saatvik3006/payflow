@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: payflow-backend
+  datasource:
+    url: jdbc:h2:mem:payflow_db;DB_CLOSE_DELAY=-1;DEFAULT_LOCK_TIMEOUT=15000
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 20000
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    listener:
+      auto-startup: false
+    admin:
+      auto-create: false
+      fail-fast: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+app:
+  kafka:
+    enabled: false
+    topics:
+      payment-events: payment.events
+      payment-dlt: payment.events.DLT
+      notification-events: notification.events
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration-ms: 86400000
+  mock-gateway:
+    failure-rate-percent: 0
+
+server:
+  port: ${SERVER_PORT:8088}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
